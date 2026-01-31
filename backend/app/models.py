@@ -1,19 +1,11 @@
-from pydantic import BaseModel, Field
-from datetime import date
-from typing import Optional
+from sqlalchemy import Column, Integer, String, Float, Date
+from .database import Base
 
-class GastoCreate(BaseModel):
-    monto: float = Field(gt=0)
-    categoria: str = Field(min_length=1, max_length=50)
-    descripcion: Optional[str] = Field(default=None, max_length=200)
-    fecha: date
+class Gastos(Base):
+    __tablename__ = 'gastos'
 
-class GastoOut(BaseModel):
-    id: int
-    monto: float
-    categoria: str
-    descripcion: Optional[str]
-    fecha: date
-
-    class Config:
-        from_attributes = True
+    id = Column(Integer, primary_key=True, index=True)
+    monto = Column(Float, nullable=False)
+    categoria = Column(String, nullable=False)
+    descripcion = Column(String, nullable=True)
+    fecha = Column(Date, nullable=False)
